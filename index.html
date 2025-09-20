@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Topelzz</title>
+    <style>
+        /* Variabel CSS untuk tema */
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --light-text: #fff;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --gradient: linear-gradient(135deg, #4e54c8, #8f94fb);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Reset dan gaya dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #4e54c8, #8f94fb, #4e54c8, #8f94fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Animasi latar belakang */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Container utama */
+        .payment-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        /* Judul */
+        .payment-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--light-text);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .payment-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .payment-header p {
+            opacity: 0.9;
+        }
+
+        /* Kartu 3D */
+        .card-3d {
+            width: 100%;
+            max-width: 400px;
+            height: 220px;
+            margin: 0 auto 30px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            position: relative;
+        }
+
+        .card-3d:hover {
+            transform: rotateY(15deg) rotateX(10deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            background: var(--gradient);
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            color: var(--light-text);
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #8f94fb, #4e54c8);
+        }
+
+        .card-strip {
+            height: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            margin: 20px -20px;
+        }
+
+        .card-cvv {
+            background: white;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 4px;
+            align-self: flex-end;
+            width: 50px;
+            text-align: center;
+        }
+
+        .card-logo {
+            font-size: 24px;
+            font-weight: bold;
+            align-self: flex-end;
+        }
+
+        /* Form pembayaran */
+        .payment-form {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--light-text);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* Tombol pembayaran */
+        .payment-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .payment-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .payment-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .payment-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        /* Info pembayaran */
+        .payment-info {
+            text-align: center;
+            color: var(--light-text);
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Animasi partikel API */
+        .api-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            animation: float 10s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100vw) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsivitas */
+        @media (max-width: 600px) {
+            .payment-container {
+                padding: 20px;
+            }
+            
+            .card-3d {
+                height: 180px;
+            }
+            
+            .payment-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Partikel API yang bergerak -->
+    <div class="api-particles" id="particles"></div>
+    
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>Payment Gateway 3D</h1>
+            <p>Lakukan pembayaran dengan mudah dan aman</p>
+        </div>
+        
+        <div class="card-3d">
+            <div class="card-front">
+                <div class="card-chip"></div>
+                <div class="card-number">**** **** **** 1234</div>
+                <div class="card-holder">Nama Pemilik Kartu</div>
+                <div class="card-logo">VISA</div>
+            </div>
+            <div class="card-back">
+                <div class="card-strip"></div>
+                <div class="card-cvv">123</div>
+                <div class="card-logo">VISA</div>
+            </div>
+        </div>
+        
+        <div class="payment-form">
+            <div class="form-group">
+                <label for="cardNumber">Nomor Kartu</label>
+                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+            
+            <div class="form-group">
+                <label for="expiryDate">Tanggal Kadaluarsa</label>
+                <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5">
+            </div>
+            
+            <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="123" maxlength="3">
+            </div>
+            
+            <div class="form-group">
+                <label for="amount">Jumlah Pembayaran</label>
+                <input type="text" id="amount" placeholder="Rp 100.000">
+            </div>
+        </div>
+        
+        <button class="payment-button" onclick="processPayment()">
+            Bayar Sekarang
+        </button>
+        
+        <div class="payment-info">
+            <p>Transfer ke: <strong>DANA: 081266385747 A/N: Topelzz</strong></p>
+            <p>Pembayaran Anda akan diproses secara aman dan terenkripsi.</p>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk membuat partikel API yang bergerak
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Properti acak untuk partikel
+                const size = Math.random() * 20 + 5;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const animationDuration = Math.random() * 15 + 5;
+                const animationDelay = Math.random() * 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}vw`;
+                particle.style.top = `${posY}vh`;
+                particle.style.animationDuration = `${animationDuration}s`;
+                particle.style.animationDelay = `${animationDelay}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Fungsi untuk memproses pembayaran
+        function processPayment() {
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvv').value;
+            const amount = document.getElementById('amount').value;
+            
+            if (!cardNumber || !expiryDate || !cvv || !amount) {
+                alert('Harap lengkapi semua field pembayaran!');
+                return;
+            }
+            
+            // Animasi loading pada tombol
+            const button = document.querySelector('.payment-button');
+            button.textContent = 'Memproses...';
+            button.disabled = true;
+            
+            // Simulasi proses pembayaran
+            setTimeout(() => {
+                alert(`Pembayaran sebesar ${amount} berhasil!\nSilakan transfer ke DANA: 081266385747 A/N: Topelzz`);
+                button.textContent = 'Bayar Sekarang';
+                button.disabled = false;
+                
+                // Reset form
+                document.getElementById('cardNumber').value = '';
+                document.getElementById('expiryDate').value = '';
+                document.getElementById('cvv').value = '';
+                document.getElementById('amount').value = '';
+            }, 2000);
+        }
+        
+        // Format input nomor kartu
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+            }
+            e.target.value = value;
+        });
+        
+        // Format input tanggal kadaluarsa
+        document.getElementById('expiryDate').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+        
+        // Jalankan fungsi setelah halaman dimuat
+        window.onload = function() {
+            createParticles();
+        };
+    </script>
+</body>
+</html>
